@@ -142,8 +142,12 @@ module WEBrick
       elsif %r{^multipart/byteranges} =~ @header['content-type']
         @header.delete('content-length')
       elsif @header['content-length'].nil?
-        unless @body.is_a?(IO)
-          @header['content-length'] = @body ? @body.size : 0
+        if @body.nil?
+          @header['content-length'] = 0
+        elsif @body.respond_to?(:size)
+          @header['content-length'] = @body.size
+        else
+          @header['connection'] = 'close'
         end
       end
 
@@ -181,8 +185,7 @@ module WEBrick
     end
 
     def send_body(socket)
-      case @body
-      when IO then send_body_io(socket)
+      if @body.respond_to?(:read) then send_body_io(socket)
       else send_body_string(socket)
       end
     end
