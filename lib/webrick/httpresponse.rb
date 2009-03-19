@@ -16,7 +16,7 @@ require 'webrick/httpstatus'
 
 module WEBrick
   class HTTPResponse
-    BUFSIZE = 1024*4
+    BUFSIZE = 1024*16
 
     attr_reader :http_version, :status, :header
     attr_reader :cookies
