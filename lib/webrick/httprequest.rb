@@ -20,7 +20,7 @@ module WEBrick
 
   class HTTPRequest
     BODY_CONTAINABLE_METHODS = [ "POST", "PUT" ]
-    BUFSIZE = 1024*4
+    BUFSIZE = 1024*16
 
     # Request line
     attr_reader :request_line
